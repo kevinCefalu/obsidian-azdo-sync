@@ -43,6 +43,10 @@ jobs:
           # Create zip file
           zip -r dist/${{ env.PLUGIN_NAME }}.zip dist/${{ env.PLUGIN_NAME }};
 
+          ls -la;
+          ls -la dist/;
+
+
       - name: ⬆️ Publish Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -50,14 +54,14 @@ jobs:
           path: dist/
 
       - name: 🥳 Publish Release
-        working-directory: dist/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="${GITHUB_REF#refs/tags/}"
-          echo "Creating release for refs/tags/$tag"
+          tag="${GITHUB_REF#refs/tags/}";
+          echo "Creating release for refs/tags/$tag";
+          zip="dist/${{ env.PLUGIN_NAME }}.zip";
+          echo "Including: $zip";
 
-          gh release create "$tag" --title="v$tag" \
-            --prerelease \ # TODO: Change based on tag
-            --discussion-category "Announcements" \
-            ${{ env.PLUGIN_NAME }}.zip
+          # TODO: Change based on tag
+          gh release create "$tag" --title="v$tag" --prerelease \
+            --discussion-category "Announcements" "$zip";
