@@ -50,7 +50,7 @@ jobs:
           path: dist/
 
       - name: 🥳 Publish Release
-        working-directory: dist/${{ env.PLUGIN_NAME }}/
+        working-directory: dist/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -60,4 +60,4 @@ jobs:
           gh release create "$tag" --title="v$tag" \
             --prerelease \ # TODO: Change based on tag
             --discussion-category "Announcements" \
-            dist/${{ env.PLUGIN_NAME }}.zip
+            ${{ env.PLUGIN_NAME }}.zip
