@@ -52,19 +52,24 @@ jobs:
           name: ${{ env.PLUGIN_NAME }}-artifacts
           path: dist/
 
+      - name: 📦 Prepare Release
+        working-directory: dist
+        run: |
+          # Copy zip file to same directory as plugin files
+          cp ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}/
+
+          ls -la ${{ env.PLUGIN_NAME }}
+
       - name: 🥳 Publish Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: dist
+        working-directory: dist/${{ env.PLUGIN_NAME }}
         run: |
           tag="${GITHUB_REF#refs/tags/}"
-          zip="${{ env.PLUGIN_NAME }}.zip"
           echo "Creating release for refs/tags/$tag"
 
-          cp ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}/
-          cd ${{ env.PLUGIN_NAME }}/
-
           # TODO: Change based on tag
+          # TODO: Re-add `--discussion-category "Announcements"`
           gh release create "$tag" --title="v$tag" --prerelease \
-            --discussion-category "Announcements" "$zip" \
-            main.js manifest.json styles.css templates/*.template.md
+            main.js manifest.json styles.css templates/*.template.md \
+            '${{ env.PLUGIN_NAME }}.zip#Plugin Package'
