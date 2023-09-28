@@ -1,8 +1,14 @@
-name: Release Obsidian plugin
+
+
+name: Release Obsidian Plugin
+
+
 
 on:
-  # Allow manual workflow trigger
+  # Manual Trigger
   workflow_dispatch:
+
+  # Push Trigger(s)
   push:
     tags:
       - "*"
@@ -11,29 +17,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: 🌱 Checkout branch
+      - name: 🌱 Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🍏 Setup Node.js
+      - name: 🍏 Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: ⚙️ Build Plugin
+      - name: ⚙️ Build Artifact
         run: |
           npm install
           npm run build
 
-
-      - name: ⬆️ Publish Plugin Artifact
-        run: |
-          ls -la
-          ls -la dist/
-          ls -la dist/psi-azdo-sync/
-
-      - name: ⬆️ Publish Plugin artifact
+      - name: ⬆️ Publish Artifact
         uses: actions/upload-artifact@v3
         with:
           name: psi-azdo-sync
@@ -43,16 +42,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Download artifact from build job
+      - name: ⬇️ Download Artifact
         uses: actions/download-artifact@v3
         with:
           name: psi-azdo-sync
 
-      - name: ⬆️ Publish Plugin Artifact
-        working-directory: ${{ github.workspace }}/psi-azdo-sync/
+      - name: 🥳 Publish Release
+        working-directory: ${{ github.workspace }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls -la
-          cd ..
           ls -la
