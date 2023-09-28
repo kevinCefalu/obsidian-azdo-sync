@@ -37,15 +37,6 @@ jobs:
           # Build artifact
           npm run build;
 
-          # Change to dist directory
-          cd dist;
-
-          # Cleanup before zipping
-          rm ${{ env.PLUGIN_NAME }}/versions.json;
-
-          # Create zip file
-          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }};
-
       - name: 📦 Prepare Artifact
         working-directory: dist
         run: |
