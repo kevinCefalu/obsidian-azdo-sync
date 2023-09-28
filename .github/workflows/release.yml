@@ -32,24 +32,28 @@ jobs:
         id: build
         run: |
           # Install dependencies
-          npm install;
+          npm install
 
           # Build artifact
-          npm run build;
+          npm run build
+
+      - uses: actions/setup-gitversion@v1.0.0
+        with:
+          gitversion-version: 5.12.0
 
       - name: 📦 Prepare Artifact
         working-directory: dist
         run: |
           # Cleanup before zipping
-          rm ${{ env.PLUGIN_NAME }}/versions.json;
+          rm ${{ env.PLUGIN_NAME }}/versions.json
 
           # Create zip file
-          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }};
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
 
       - name: ⬆️ Publish Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: artifacts
+          name: ${{ env.PLUGIN_NAME }}-artifacts
           path: dist/
 
       - name: 🥳 Publish Release
@@ -57,10 +61,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: dist
         run: |
-          tag="${GITHUB_REF#refs/tags/}";
-          zip="${{ env.PLUGIN_NAME }}.zip";
-          echo "Creating release for refs/tags/$tag";
+          tag="${GITHUB_REF#refs/tags/}"
+          zip="${{ env.PLUGIN_NAME }}.zip"
+          echo "Creating release for refs/tags/$tag"
+
+          cp ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}/
+          cd ${{ env.PLUGIN_NAME }}/
 
           # TODO: Change based on tag
           gh release create "$tag" --title="v$tag" --prerelease \
-            --discussion-category "Announcements" "$zip";
+            --discussion-category "Announcements" "$zip" \
+            main.js manifest.json styles.css templates/*.template.md
