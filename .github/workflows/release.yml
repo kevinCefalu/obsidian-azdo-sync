@@ -1,19 +1,15 @@
 name: Release Obsidian plugin
 
 on:
+  # Allow manual workflow trigger
+  workflow_dispatch:
   push:
     tags:
       - "*"
-  workflow_dispatch: # Allow manual workflow trigger
-
-env:
-  PLUGIN_NAME: "psi-azdo-sync"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ARTIFACTS_DIR: dist/${{ vars.PLUGIN_NAME }}/
     steps:
       - name: 🌱 Checkout branch
         uses: actions/checkout@v3
@@ -30,29 +26,33 @@ jobs:
           npm install
           npm run build
 
+
+      - name: ⬆️ Publish Plugin Artifact
+        run: |
+          ls -la
+          ls -la dist/
+          ls -la dist/psi-azdo-sync/
+
       - name: ⬆️ Publish Plugin artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ vars.PLUGIN_NAME }}
-          path: ${{ vars.ARTIFACTS_DIR }}
+          name: psi-azdo-sync
+          path: dist/psi-azdo-sync/
 
   release:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      ARTIFACTS_DIR: ${{ github.workspace }}/${{ vars.PLUGIN_NAME }}/
     steps:
       - name: ⬇️ Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: ${{ vars.PLUGIN_NAME }}
+          name: psi-azdo-sync
 
       - name: ⬆️ Publish Plugin Artifact
-        working-directory: ${{ vars.ARTIFACTS_DIR }}
+        working-directory: ${{ github.workspace }}/psi-azdo-sync/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ls -la
           cd ..
           ls -la
-
