@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "*"
+  workflow_dispatch: # Allow manual workflow trigger
 
 env:
   PLUGIN_NAME: "psi-azdo-sync"
