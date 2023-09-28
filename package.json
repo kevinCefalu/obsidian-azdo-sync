@@ -1,24 +1,47 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
-	"main": "main.js",
-	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
-		"version": "node version-bump.mjs && git add manifest.json versions.json"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
-	"devDependencies": {
-		"@types/node": "^16.11.6",
-		"@typescript-eslint/eslint-plugin": "5.29.0",
-		"@typescript-eslint/parser": "5.29.0",
-		"builtin-modules": "3.3.0",
-		"esbuild": "0.17.3",
-		"obsidian": "latest",
-		"tslib": "2.4.0",
-		"typescript": "4.7.4"
-	}
+  "name": "psi-azdo-sync",
+  "version": "1.0.0",
+  "description": "Obsidian plugin to sync Azure DevOps with your vault.",
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "azure",
+    "devops",
+    "sync"
+  ],
+  "author": {
+    "name": "Kevin Cefalu",
+    "email": "kevin.cefalu@outlook.com",
+    "url": "https://www.psibitdev.com/"
+  },
+  "homepage": "https://github.com/kevinCefalu/obsidian-azdo-sync",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kevinCefalu/obsidian-azdo-sync.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kevinCefalu/obsidian-azdo-sync/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.17.3",
+    "obsidian": "latest",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4"
+  },
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
+  },
+  "dependencies": {
+    "@azure/identity": "^3.3.0",
+    "azure-devops-node-api": "^12.1.0",
+    "mustache": "^4.2.0"
+  }
 }
