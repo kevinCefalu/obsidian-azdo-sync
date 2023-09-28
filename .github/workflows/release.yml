@@ -1,8 +1,5 @@
 
-
-name: Release Obsidian Plugin
-
-
+name: Release Plugin
 
 on:
   # Manual Trigger
@@ -52,4 +49,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls -la
+          tag="${GITHUB_REF#refs/tags/}"
+
+          echo "Creating release for tag $tag"
+          echo "gh release create "$tag" --title="$tag" --prerelease templates/* main.js manifest.json styles.css"
