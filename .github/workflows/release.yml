@@ -72,4 +72,4 @@ jobs:
           # TODO: Re-add `--discussion-category "Announcements"`
           gh release create "$tag" --title="v$tag" --prerelease \
             main.js manifest.json styles.css templates/*.template.md \
-            '${{ env.PLUGIN_NAME }}.zip#✨ Plugin Package'
+            '${{ env.PLUGIN_NAME }}.zip#✨✨ Plugin Package ✨✨'
