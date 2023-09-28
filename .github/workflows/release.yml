@@ -5,30 +5,53 @@ on:
     tags:
       - "*"
 
+env:
+  PLUGIN_NAME: "psi-azdo-sync"
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      ARTIFACTS_DIR: dist/${{ vars.PLUGIN_NAME }}/
     steps:
-      - uses: actions/checkout@v3
+      - name: 🌱 Checkout branch
+        uses: actions/checkout@v3
 
-      - name: Use Node.js
+      - name: 🍏 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18.x"
+          node-version: 20.x
+          cache: npm
+          cache-dependency-path: package-lock.json
 
-      - name: Build plugin
+      - name: ⚙️ Build Plugin
         run: |
           npm install
           npm run build
 
-      - name: Create release
+      - name: ⬆️ Publish Plugin artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ vars.PLUGIN_NAME }}
+          path: ${{ vars.ARTIFACTS_DIR }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      ARTIFACTS_DIR: ${{ github.workspace }}/${{ vars.PLUGIN_NAME }}/
+    steps:
+      - name: ⬇️ Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ vars.PLUGIN_NAME }}
+
+      - name: ⬆️ Publish Plugin Artifact
+        working-directory: ${{ vars.ARTIFACTS_DIR }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="${GITHUB_REF#refs/tags/}"
+          ls -la
+          cd ..
+          ls -la
 
-          gh release create "$tag" \
-            --title="$tag" \
-            --draft \
-            main.js manifest.json styles.css
