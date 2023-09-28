@@ -29,7 +29,7 @@
     "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "target": "ES6"
+    "target": "ESNext",
   },
   "include": [
     "src/**/*.ts",

@@ -1,15 +1,7 @@
-import {
-  /* Editor, MarkdownView, Notice, */ Notice,
-  Plugin,
-  TFile,
-} from "obsidian";
+import { Notice, Plugin, TFile } from "obsidian";
 import { IAzDOSyncSettings } from "./settings/IAzDOSyncSettings";
 import { AzDOSyncSettingsTab } from "./settings/AzDOSyncSettingsTab";
-import { SelectProjectModal } from "./modals/SelectProjectModal";
 import { EnterWorkItemIdModal } from "./modals/EnterWorkItemIdModal";
-import { AzDOClient } from "./client/AzDOClient";
-// import mustache
-import { Mustache } from "mustache";
 
 const DEFAULT_SETTINGS: Partial<IAzDOSyncSettings> = {
   organizationUrl: "",

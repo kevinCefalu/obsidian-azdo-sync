@@ -22,15 +22,22 @@ export class EnterWorkItemIdModal extends Modal {
   onOpen() {
     const { contentEl } = this;
 
-    contentEl.createEl("h1", {
+    contentEl.createEl("h3", {
       text: "What is the ID of the work item you would like to sync?",
     });
 
-    new Setting(contentEl).setName("Work Item ID").addText((text) =>
-      text.onChange((value) => {
-        this.result = value;
-      })
-    );
+    new Setting(contentEl)
+      .setName("Work Item ID")
+      .setDesc("Enter the ID of the work item you would like to sync.")
+      .addText((text) =>
+        text
+          .setPlaceholder(
+            "Enter the ID of the work item you would like to sync."
+          )
+          .onChange((value) => {
+            this.result = value;
+          })
+      );
 
     new Setting(contentEl).addButton((btn) =>
       btn

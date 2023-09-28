@@ -22,14 +22,14 @@ export class AzDOClient {
 
       this._connection.connect().then((connectionData) => {
         this._connectionData = connectionData;
-        console.log("Azure DevOps Connection Data:", connectionData);
+        console.log("Azure DevOps Connection Data:", this._connectionData);
 
         if (silent) {
           return;
         }
 
         const userDisplayName =
-          connectionData.authenticatedUser?.providerDisplayName;
+          this._connectionData.authenticatedUser?.providerDisplayName;
         new Notice(`Welcome, ${userDisplayName}!`);
       });
     } catch (err) {
@@ -47,8 +47,12 @@ export class AzDOClient {
   public async getWorkItemById(id: number, asOf: Date = new Date()) {
     const workItemTrackingApi = await this._connection.getWorkItemTrackingApi();
     const workItem = workItemTrackingApi.getWorkItem(
-      id, undefined, asOf, azdowi.WorkItemExpand.All
+      id,
+      undefined,
+      asOf,
+      azdowi.WorkItemExpand.All
     );
+    console.log("Work Item:", workItem);
 
     return workItem;
   }

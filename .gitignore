@@ -20,3 +20,13 @@ data.json
 
 # Exclude macOS Finder (System Explorer) View States
 .DS_Store
+
+dist/
+
+# Exclude all files under scratchpad but leave the folder itself
+.[Ss]cratch[Pp]ad/*
+!.[Ss]cratch[Pp]ad/.gitkeep
+_[Ss]cratch[Pp]ad/*
+!_[Ss]cratch[Pp]ad/.gitkeep
+[Ss]cratch[Pp]ad/*
+![Ss]cratch[Pp]ad/.gitkeep

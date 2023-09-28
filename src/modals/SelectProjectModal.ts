@@ -1,5 +1,5 @@
 import { App, SuggestModal } from "obsidian";
-import { IAzDOSyncSettings } from "../IAzDOSyncSettings";
+import { IAzDOSyncSettings } from "../settings/IAzDOSyncSettings";
 import { AzDOClient } from "src/client/AzDOClient";
 
 interface IProject {
