@@ -9,6 +9,8 @@ on:
     tags:
       - "*"
 
+permissions: write-all
+
 env:
   PLUGIN_NAME: psi-azdo-sync
 
