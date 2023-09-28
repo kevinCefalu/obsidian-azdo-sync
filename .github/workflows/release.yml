@@ -50,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag="${GITHUB_REF#refs/tags/}"
-
           echo "Creating release for tag $tag"
-          echo "gh release create "$tag" --title="$tag" --prerelease templates/* main.js manifest.json styles.css"
+
+          gh release create "$tag" --title="$tag" --prerelease \
+            main.js manifest.json styles.css templates/*
